@@ -1,11 +1,6 @@
-# FINAL PROJECT - TurfHub
+TurfHub
 
 By **Syed Moin Hussain**
-
-GitHub username: **syedmoinhussain9**
-edX username: **syed_0009**
-
-City and Country: Kolkata, West Bengal, India
 
 ---
 
