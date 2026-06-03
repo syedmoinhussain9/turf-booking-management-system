@@ -1,0 +1,50 @@
+{% extends 'bookings/base.html' %}
+
+{% block title %}Referee Center - TurfHub{% endblock %}
+
+{% block body %}
+    <div style="max-width: 900px; margin: 40px auto; padding: 0 20px; min-height: 70vh;">
+        <h2 style="color: #0f172a; margin-bottom: 20px; font-weight: 700;">🏟️ Match Attendance Referee Verification Desk</h2>
+
+        <div class="card" style="background: #ffffff; padding: 30px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+            {% if bookings %}
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #e2e8f0; color: #475569; font-size: 14px;">
+                            <th style="padding: 10px;">Scheduled Venue Details</th>
+                            <th style="padding: 10px;">Responsible Captain</th>
+                            <th style="padding: 10px; text-align: right;">Action Control</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                            <tr style="border-bottom: 1px solid #f1f5f9;">
+                                <td style="padding: 15px 10px;">
+                                    <strong style="color: #0f172a; display: block;">{{ booking.turf.name }}</strong>
+                                    <span style="font-size: 12px; color: #64748b;">📅 {{ booking.date }} at {{ booking.start_time }} | ⚽ {{ booking.sport.name }}</span>
+                                </td>
+                                <td style="padding: 15px 10px; color: #334155;">
+                                    {{ booking.captain.username }} <span style="color: #ef4444; font-size: 12px;">(Strikes: {{ booking.captain.strike_count }}/3)</span>
+                                </td>
+                                <td style="padding: 15px 10px; text-align: right;">
+                                    <form method="POST" style="display: inline-flex; gap: 8px;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                                        <button type="submit" name="action" value="complete" style="background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 12px;">Mark Completed</button>
+                                        <button type="submit" name="action" value="strike" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 12px;">Issue No-Show Strike</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div style="text-align: center; padding: 40px 20px;">
+                    <div style="font-size: 40px; margin-bottom: 15px;">🎉</div>
+                    <h4 style="color: #0f172a; font-weight: 600; margin-bottom: 8px;">All Bookings Cleared</h4>
+                    <p style="color: #64748b; font-size: 14px; max-width: 400px; margin: 0 auto;">All matches are currently settled or verified. There are no pending supervisor checks required at this time.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

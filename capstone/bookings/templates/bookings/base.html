@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TurfHub</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+        {% block extra_head %}{% endblock %}
+    </head>
+    <body style="font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a;">
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-white tracking-tight" href="{% url 'index' %}">🏟️ TurfHub</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav align-items-center gap-2">
+                        <li class="nav-item">
+                            <a class="nav-link text-white-50" href="{% url 'index' %}">Home</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link text-white fw-medium d-flex align-items-center px-2" href="{% url 'user_profile' %}">
+                                    <span class="me-1">👤</span> {{ user.username }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary px-4 fw-medium" href="/sandbox/">Book Now</a>
+                            </li>
+                            <li class="nav-item">
+                                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger btn-sm px-3">Logout</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="btn btn-outline-light px-3 me-2" href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary px-3" href="{% url 'register' %}">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="py-4">
+            {% block body %}
+            {% endblock %}
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>

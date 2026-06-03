@@ -1,0 +1,89 @@
+{% extends "bookings/base.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="container py-4">
+
+        {% if messages %}
+            <div class="row">
+                <div class="col-12">
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'warning' %}warning{% else %}success{% endif %} alert-dismissible fade show shadow-sm mb-4" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="text-center py-5 mb-5 rounded-4" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div class="py-4 px-3">
+                <h1 class="display-5 fw-bold tracking-tight mb-3">Reserve Your Turf Session Instantly</h1>
+                <p class="lead text-slate-300 mx-auto mb-4" style="max-width: 600px; color: #cbd5e1; font-size: 1.1rem;">
+                    Seamlessly coordinate matches, check dynamic real-time player scheduling, and manage rosters with precision control.
+                </p>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-4 py-2 fw-bold shadow-sm transition">Create Your Account Now</a>
+                {% else %}
+                    <a href="/sandbox/" class="btn btn-primary btn-lg px-4 py-2 fw-bold shadow-sm transition">Launch Booking System →</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+            <h2 class="h4 fw-bold text-slate-800 m-0">Our Prime Facilities</h2>
+        </div>
+
+        <div class="row g-4">
+            {% for turf in turfs %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden" style="border: 1px solid #e2e8f0 !important;">
+                        <div class="p-4 bg-light border-bottom d-flex align-items-center justify-content-between">
+                            <span class="fs-2">
+                                {% if "Arena A" in turf.name %}🏟️
+                                {% elif "Arena B" in turf.name %}🏏
+                                {% elif "Court C" in turf.name %}🏀
+                                {% else %}⚡
+                                {% endif %}
+                            </span>
+                            <span class="badge bg-success-subtle text-success fw-bold px-2.5 py-1 rounded-pill uppercase">Active</span>
+                        </div>
+                        <div class="card-body p-4">
+                            <h3 class="h5 fw-bold text-dark mb-2">{{ turf.name }}</h3>
+                            <p class="text-muted small mb-4" style="line-height: 1.5;">
+                                {% if "Arena A" in turf.name %}
+                                    Experience premium synthetic turf engineered for pro-level athletic performance, complete with high-lumen night lighting and full amenities.
+                                {% elif "Arena B" in turf.name %}
+                                    Optimized natural aggregate flooring system carefully manicured for true ball tracking speed and perfect outdoor tournament settings.
+                                {% elif "Court C" in turf.name %}
+                                    Premium polished maple wood flooring providing shock absorption features perfect for dynamic competitive indoor team sports.
+                                {% else %}
+                                    High-performance multi-sport outdoor configuration structured for versatile tactical drills, rapid-turnaround scrimmages, and casual gameplay.
+                                {% endif %}
+                            </p>
+
+                            <div class="d-flex flex-wrap gap-2 pt-2 border-top">
+                                {% if "Arena A" in turf.name %}
+                                    <span class="badge bg-secondary-subtle text-secondary px-3 py-1.5 rounded-pill fs-7 fw-semibold">⚽ Football</span>
+                                    <span class="badge bg-secondary-subtle text-secondary px-3 py-1.5 rounded-pill fs-7 fw-semibold">🏑 Hockey</span>
+                                {% elif "Arena B" in turf.name %}
+                                    <span class="badge bg-secondary-subtle text-secondary px-3 py-1.5 rounded-pill fs-7 fw-semibold">⚽ Football</span>
+                                    <span class="badge bg-secondary-subtle text-secondary px-3 py-1.5 rounded-pill fs-7 fw-semibold">🏏 Cricket</span>
+                                {% elif "Court C" in turf.name %}
+                                    <span class="badge bg-secondary-subtle text-secondary px-3 py-1.5 rounded-pill fs-7 fw-semibold">🤾 Handball</span>
+                                {% else %}
+                                    <span class="badge bg-secondary-subtle text-secondary px-3 py-1.5 rounded-pill fs-7 fw-semibold">⚙️ Multi-Sport</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center py-4">
+                    <p class="text-muted italic">No facility options are currently configured in the backend engine.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

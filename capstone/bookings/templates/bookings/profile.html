@@ -1,0 +1,129 @@
+{% extends 'bookings/base.html' %}
+{% load static %}
+
+{% block title %}My Profile - TurfHub{% endblock %}
+
+{% block body %}
+    <div class="container py-5" style="max-width: 960px;">
+
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" style="border: 1px solid #e2e8f0 !important; background: #ffffff;">
+            <div class="d-flex flex-column flex-sm-row align-items-center gap-4">
+
+                {% if user.profile_picture_url %}
+                    <img src="{{ user.profile_picture_url }}" alt="Avatar" class="rounded-circle object-fit-cover shadow-sm" style="width: 100px; height: 100px; border: 3px solid #2563eb;">
+                {% else %}
+                    <div class="d-flex align-items-center justify-content-center bg-light rounded-circle shadow-sm" style="width: 100px; height: 100px; font-size: 3.5rem;">
+                        👤
+                    </div>
+                {% endif %}
+
+                <div class="flex-grow-1 text-center text-sm-start w-100">
+                    <h1 class="fw-bold tracking-tight text-slate-900 m-0" style="font-size: 1.75rem;">{{ user.username }}</h1>
+                    <p class="text-muted small mb-3">System ID: <span class="badge bg-secondary-subtle text-secondary fw-semibold border border-secondary-subtle px-2 py-1 ms-1">{{ user.member_id|default:"Generating..." }}</span></p>
+
+                    <form method="POST" class="d-flex gap-2 mx-auto mx-sm-0" style="max-width: 440px;">
+                        {% csrf_token %}
+                        <input type="url" name="profile_picture_url" placeholder="Paste an image URL link..." value="{{ user.profile_picture_url|default:'' }}" class="form-control px-3 py-1.5 fs-7" style="border-radius: 6px;">
+                        <button type="submit" name="update_avatar" class="btn btn-dark btn-sm px-3 fw-semibold text-nowrap" style="border-radius: 6px; background-color: #1e293b;">
+                            Save Avatar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-12 col-md-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 sticky-md-top" style="border: 1px solid #e2e8f0 !important; background: #ffffff; top: 24px;">
+                    <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">Player Status</h5>
+
+                    <div class="mb-3">
+                        <span class="d-block text-muted text-uppercase tracking-wider fw-semibold" style="font-size: 0.7rem;">Attendance Strikes</span>
+                        <strong class="fs-3 fw-bold {% if user.strike_count > 0 %}text-danger{% else %}text-success{% endif %}">
+                            {{ user.strike_count }} / 3
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span class="d-block text-muted text-uppercase tracking-wider fw-semibold" style="font-size: 0.7rem;">Total Active Lineups</span>
+                        <strong class="fs-3 fw-bold text-primary">{{ booking_count }}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+                <div class="d-flex flex-direction-column flex-column gap-4">
+
+                    <div class="card border-0 shadow-sm rounded-4 p-4" style="border: 1px solid #e2e8f0 !important; background: #ffffff;">
+                        <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">🗓️ Upcoming Duty Roster</h5>
+
+                        {% if upcoming_matches %}
+                            <div class="d-flex flex-column gap-2.5">
+                                {% for match in upcoming_matches %}
+                                    <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center bg-light-subtle" style="border-left: 5px solid #2563eb !important;">
+                                        <div>
+                                            <div class="fw-bold text-dark mb-0.5">🏟️ {{ match.turf.name }}</div>
+                                            <div class="text-secondary small">
+                                                <span class="badge bg-primary-subtle text-primary fw-medium px-2 py-0.5 me-1">{{ match.sport.name }}</span>
+                                                📅 {{ match.date }} <span class="mx-1 text-muted">|</span> 🕒 {{ match.start_time }} - {{ match.end_time }}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {% if match.captain == user %}
+                                                <span class="badge bg-primary text-white text-uppercase tracking-wider px-2 py-1" style="font-size: 0.65rem;">Captain</span>
+                                            {% else %}
+                                                <span class="badge bg-success text-white text-uppercase tracking-wider px-2 py-1" style="font-size: 0.65rem;">Teammate</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center text-muted py-3 fst-italic">
+                                No upcoming matches scheduled. Time to get added to a roster!
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card border-0 shadow-sm rounded-4 p-4" style="border: 1px solid #e2e8f0 !important; background: #ffffff;">
+                        <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">📜 Roster & Booking Logs</h5>
+
+                        {% if recent_matches %}
+                            <div class="d-flex flex-column gap-3">
+                                {% for match in recent_matches %}
+                                    <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center bg-white shadow-xs">
+                                        <div>
+                                            <strong class="text-dark d-block mb-1">{{ match.turf.name }}</strong>
+                                            <div class="text-muted small mb-1">
+                                                📅 {{ match.date }} <span class="mx-1">|</span> Type: {{ match.sport.name }}
+                                            </div>
+                                            <span class="small fw-bold {% if match.status == 'CONFIRMED' %}text-success{% elif match.status == 'CANCELLED' %}text-danger{% else %}text-primary{% endif %}">
+                                                Status: {{ match.get_status_display }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            {% if match.captain == user and match.status == 'CONFIRMED' %}
+                                                <a href="{% url 'cancel_booking' match.id %}" onclick="return confirm('Are you sure you want to cancel your slot booking?');" class="btn btn-sm btn-outline-danger px-3 fw-semibold fs-7" style="border-radius: 6px;">Cancel Booking</a>
+                                            {% elif match.captain == user %}
+                                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small">👑 Captain</span>
+                                            {% else %}
+                                                <span class="badge bg-light text-secondary border px-2 py-1 small">🏃 Teammate</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center text-muted py-3">
+                                No match history records found in sandbox logs.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

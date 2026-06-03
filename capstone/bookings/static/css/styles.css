@@ -1,0 +1,228 @@
+.booking-dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 20px auto;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .booking-dashboard-wrapper {
+        display: grid;
+        grid-template-columns: 450px 1fr;
+        align-items: start;
+    }
+}
+
+.booking-dashboard-wrapper .custom-dashboard-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.booking-dashboard-wrapper h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 0;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f1f5f9;
+    letter-spacing: -0.02em;
+}
+
+.booking-dashboard-wrapper .form-group {
+    margin-bottom: 20px;
+}
+
+.booking-dashboard-wrapper label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 8px;
+}
+
+.booking-dashboard-wrapper select,
+.booking-dashboard-wrapper input[type="text"],
+.booking-dashboard-wrapper input[type="date"],
+.booking-dashboard-wrapper input[type="time"] {
+    width: 100% !important;
+    padding: 10px 14px !important;
+    font-size: 0.925rem !important;
+    color: #0f172a !important;
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.booking-dashboard-wrapper select:focus,
+.booking-dashboard-wrapper input:focus {
+    outline: none !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+}
+
+.booking-dashboard-wrapper button[type="submit"] {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 14px 24px !important;
+    width: 100% !important;
+    border-radius: 8px !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    margin-top: 15px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    transition: all 0.2s ease;
+}
+
+.booking-dashboard-wrapper button[type="submit"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+
+.booking-dashboard-wrapper button[type="submit"]:disabled {
+    background: #cbd5e1 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.booking-dashboard-wrapper .btn-secondary {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0 !important;
+    margin-top: 8px;
+    padding: 10px 16px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    width: 100% !important;
+    border-radius: 8px !important;
+    cursor: pointer;
+}
+
+.booking-dashboard-wrapper .btn-secondary:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+.booking-dashboard-wrapper .teammate-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.booking-dashboard-wrapper .btn-remove {
+    background: #fef2f2 !important;
+    color: #ef4444 !important;
+    border: 1px solid #fee2e2 !important;
+    padding: 10px 14px !important;
+    font-size: 0.85rem !important;
+    font-weight: bold;
+    border-radius: 8px !important;
+    cursor: pointer;
+}
+
+.booking-dashboard-wrapper .btn-remove:hover {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+}
+
+.booking-dashboard-wrapper .user-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.booking-dashboard-wrapper .user-badge {
+    position: relative;
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.85rem;
+    background: #f8fafc;
+}
+
+.booking-dashboard-wrapper .user-badge.banned {
+    background: #fff5f5;
+    border-color: #fed7d7;
+}
+
+.booking-dashboard-wrapper .status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.booking-dashboard-wrapper .banned .status-dot {
+    background-color: #ef4444;
+}
+
+.booking-dashboard-wrapper .booking-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.booking-dashboard-wrapper table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+    font-size: 0.875rem !important;
+}
+
+.booking-dashboard-wrapper th {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    padding: 14px 16px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.booking-dashboard-wrapper td {
+    padding: 14px 16px !important;
+    color: #334155 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.booking-dashboard-wrapper .badge-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.booking-dashboard-wrapper .alert-wrapper {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.booking-dashboard-wrapper .badge-status.confirmed { background-color: #dcfce7; color: #15803d; }
+.booking-dashboard-wrapper .badge-status.completed { background-color: #f0fdf4; color: #16a34a; border: 1px dashed #bbf7d0; }
+.booking-dashboard-wrapper .badge-status.cancelled { background-color: #fee2e2; color: #991b1b; }
+
+.booking-dashboard-wrapper .user-grid::-webkit-scrollbar,
+.booking-dashboard-wrapper .booking-table-wrapper::-webkit-scrollbar { width: 6px; height: 6px; }
+.booking-dashboard-wrapper .user-grid::-webkit-scrollbar-track { background: #f1f5f9; }
+.booking-dashboard-wrapper .user-grid::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
