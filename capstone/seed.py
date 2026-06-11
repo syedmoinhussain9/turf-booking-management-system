@@ -1,4 +1,6 @@
 """file name - seed.py, project name - capstone, author - S. M. Hussain, date 21st may 2026."""
+from bookings.models import Sport, Turf, Booking
+from django.contrib.auth import get_user_model
 import os
 import django
 import random
@@ -6,9 +8,6 @@ from datetime import datetime, timedelta, date, time
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "capstone.settings")
 django.setup()
-
-from bookings.models import Sport, Turf, Booking
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
