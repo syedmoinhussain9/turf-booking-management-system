@@ -4,19 +4,6 @@
 {% block body %}
     <div class="container py-4">
 
-        {% if messages %}
-            <div class="row">
-                <div class="col-12">
-                    {% for message in messages %}
-                        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'warning' %}warning{% else %}success{% endif %} alert-dismissible fade show shadow-sm mb-4" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
-
         <div class="text-center py-5 mb-5 rounded-4" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
             <div class="py-4 px-3">
                 <h1 class="display-5 fw-bold tracking-tight mb-3">Reserve Your Turf Session Instantly</h1>
